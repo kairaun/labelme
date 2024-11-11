@@ -7,6 +7,7 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   sonarcloud:
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,16 +18,11 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: List files in root directory
-        run: ls -la
-
       - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
 
       - name: Run SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.11
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          pip install sonar-scanner-cli
-          sonar-scanner
