@@ -1031,8 +1031,10 @@ class MainWindow(QtWidgets.QMainWindow):
             score_threshold=self._ai_prompt_widget.get_score_threshold(),
             max_num_detections=100,
         )
-
-        keep = scores != 1.01
+        
+        EPSILON = 1e-6
+        keep = abs(scores - 1.01) > EPSILON
+        
         boxes = boxes[keep]
         scores = scores[keep]
         labels = labels[keep]
